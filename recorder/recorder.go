@@ -181,6 +181,9 @@ func NewAsMode(cassetteName string, mode Mode, realTransport http.RoundTripper) 
 		// Depending on whether the cassette file exists or not we
 		// either create a new empty cassette or load from file
 		if _, err := os.Stat(cassetteFile); os.IsNotExist(err) || mode == ModeRecording {
+			if mode == ModeReplaying {
+				return nil, err
+			}
 			// Create new cassette and enter in recording mode
 			c = cassette.New(cassetteName)
 			mode = ModeRecording
